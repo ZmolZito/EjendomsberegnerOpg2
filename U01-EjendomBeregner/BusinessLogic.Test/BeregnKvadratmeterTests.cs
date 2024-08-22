@@ -21,6 +21,7 @@ public class BeregnKvadratmeterTests
         lejemaalsRepositoryMock.Setup(x => x.HentLejemaal()).Returns(lejemaals);
 
         var sut = new EjendomBeregnerService(lejemaalsRepositoryMock.Object);
+
         // Act 
         var actual = sut.BeregnKvadratmeter();
 

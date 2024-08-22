@@ -17,7 +17,7 @@ public class LejemaalFileRepositoryTests
 
         string[] temp = new string[1];
         temp[0] = csvLine;
-        fileWrapperMock.Setup(x => x.ReadAllLines(It.IsAny<string>())).Returns(temp);
+        fileWrapperMock.Setup(x => x.ReadAllLines(It.IsAny<string>())).Returns(new[] {csvLine});
 
         ILejemaalRepository sut = new LejemaalFileRepository("test", fileWrapperMock.Object);
 
