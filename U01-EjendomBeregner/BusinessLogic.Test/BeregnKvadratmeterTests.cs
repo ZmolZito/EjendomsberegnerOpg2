@@ -1,4 +1,5 @@
 ﻿using EjendomBeregner.BusinessLogic;
+using Moq;
 
 namespace BusinessLogic.Test;
 
@@ -15,9 +16,14 @@ public class BeregnKvadratmeterTests
             new() { Kvadratmeter = 30 }
         };
         var expected = lejemaals.Sum(l => l.Kvadratmeter);
-        var sut = new EjendomBeregnerService(...);
+
+        var lejemaalsRepositoryMock = new Mock<ILejemaalRepository>();
+        lejemaalsRepositoryMock.Setup(x => x.HentLejemaal()).Returns(lejemaals);
+
+        var sut = new EjendomBeregnerService(lejemaalsRepositoryMock.Object);
         // Act 
         var actual = sut.BeregnKvadratmeter();
+
         // Assert
         Assert.Equal(expected, actual);
     }

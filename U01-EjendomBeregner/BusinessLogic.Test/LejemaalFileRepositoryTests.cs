@@ -1,4 +1,5 @@
 ﻿using EjendomBeregner.BusinessLogic;
+using Moq;
 
 namespace BusinessLogic.Test;
 
@@ -12,9 +13,17 @@ public class LejemaalFileRepositoryTests
         double expectedKvadratmeter, double expectedRum)
     {
         // Arrange
-        var sut = new LejemaalFileRepository(...);
+        var fileWrapperMock = new Mock<IFileWrapper>();
+
+        string[] temp = new string[1];
+        temp[0] = csvLine;
+        fileWrapperMock.Setup(x => x.ReadAllLines(It.IsAny<string>())).Returns(temp);
+
+        ILejemaalRepository sut = new LejemaalFileRepository("test", fileWrapperMock.Object);
+
         // Act
         var actual = sut.HentLejemaal().First();
+
         // Assert
         Assert.Equal(expectedLejlighednummer, actual.Lejlighednummer);
         Assert.Equal(expectedKvadratmeter, actual.Kvadratmeter, 5);
